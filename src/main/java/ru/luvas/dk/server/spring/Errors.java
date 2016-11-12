@@ -12,20 +12,20 @@ import org.json.simple.JSONObject;
  */
 public class Errors {
 
-    private static int id = 0;
-    private final static Map<Integer, Error> errors = new HashMap<>();
+    private final static Map<Integer, Error> ERRORS = new HashMap<>();
     
     public final static Error
-            UNEXPECTED_ERROR = new Error(id++, "Unexpected error occured whilst trying to handle your request."),
-            TOO_MANY_REQUESTS = new Error(id++, "You made too many requests within given amount of time. Try again later."),
-            NO_MESSAGE = new Error(id++, "There's no message in your request."),
-            TOO_LONG_MESSAGE = new Error(id++, "This message is too long."),
-            WRONG_LOCATION_FORMAT = new Error(id++, "Wrong location format."),
-            REQUEST_WAS_DENIED = new Error(id++, "By some reason this request was denied."),
-            CAN_NOT_HANDLE_REQUEST = new Error(id++, "By some reason we are unable to handle your request.");
+            UNEXPECTED_ERROR = new Error(0, "Unexpected error occured whilst trying to handle your request."),
+            TOO_MANY_REQUESTS = new Error(1, "You made too many requests within a given period of time. Try again later."),
+            NO_MESSAGE = new Error(2, "There's no message in your request."),
+            TOO_LONG_MESSAGE = new Error(3, "This message is too long."),
+            WRONG_LOCATION_FORMAT = new Error(4, "Wrong location format."),
+            REQUEST_WAS_DENIED = new Error(5, "By some reason your request was denied."),
+            CAN_NOT_HANDLE_REQUEST = new Error(6, "By some reason we are unable to handle your request."),
+            MODULE_TEMPORARILY_DISABLED = new Error(7, "This command is temporarily disabled.");
     
     public static Error get(int id) {
-        return errors.get(id);
+        return ERRORS.get(id);
     }
     
     public static class Error {
@@ -47,7 +47,7 @@ public class Errors {
             map.put("id", id);
             map.put("text", message);
             this.json = JSONObject.toJSONString(map);
-            errors.put(id, this);
+            ERRORS.put(id, this);
         }
         
         public String toJson() {

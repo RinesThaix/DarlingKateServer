@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import ru.luvas.dk.server.custom.RequestResult;
+import ru.luvas.dk.server.spring.Errors;
 
 /**
  *
@@ -29,7 +30,7 @@ public abstract class Module {
     
     RequestResult handle0(String msg) {
         if(disabled)
-            return new RequestResult("Эта команда временно отключена.", "Эта команда временно отключена.", null);
+            return new RequestResult(Errors.MODULE_TEMPORARILY_DISABLED);
         return handle(msg);
     }
     

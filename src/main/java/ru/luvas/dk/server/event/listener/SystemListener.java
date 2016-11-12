@@ -13,7 +13,7 @@ import ru.luvas.dk.server.event.events.RequestEvent;
 import ru.luvas.dk.server.module.ModuleManager;
 import ru.luvas.dk.server.user.Console;
 import ru.luvas.dk.server.util.Pair;
-import ru.luvas.dk.server.util.UtilAlgo;
+import ru.luvas.dk.server.util.Rand;
 
 /**
  *
@@ -76,7 +76,7 @@ public class SystemListener {
         }
         String answer = DarlingKate.getClassifier().classify(msg);
         if(answer == null)
-            answer = unknown.get(UtilAlgo.r((long) msg.hashCode(), unknown.size()));
+            answer = Rand.of(unknown);
         else if((resultingPair = ModuleManager.handle(answer)).getFirst()) {
             e.setResult(resultingPair.getSecond());
             return;

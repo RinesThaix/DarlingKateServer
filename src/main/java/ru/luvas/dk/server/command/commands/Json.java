@@ -1,9 +1,9 @@
 package ru.luvas.dk.server.command.commands;
 
-import org.json.simple.JSONObject;
 import ru.luvas.dk.server.command.Command;
 import ru.luvas.dk.server.custom.RequestResult;
 import ru.luvas.dk.server.event.events.RequestEvent;
+import ru.luvas.dk.server.spring.Errors;
 import ru.luvas.dk.server.util.Logger;
 
 /**
@@ -27,37 +27,26 @@ public class Json extends Command {
             return;
         }
         if(msg.length() > 64) {
-            sender.sendMessage(getError("This message is too long."));
+            sender.sendMessage(Errors.TOO_LONG_MESSAGE.toJson());
             return;
         }
         try {
             RequestEvent reqEvent = new RequestEvent(msg);
             reqEvent.call();
             if(reqEvent.isCancelled()) {
-                sender.sendMessage(getError("By some reason this request was denied."));
+                sender.sendMessage(Errors.REQUEST_WAS_DENIED.toJson());
                 return;
             }
             RequestResult result = reqEvent.getResult();
-            if(result == null || result.getMessage() == null) {
-                sender.sendMessage(getError("By some reason we are unable to handle your request."));
+            if(result == null) {
+                sender.sendMessage(Errors.CAN_NOT_HANDLE_REQUEST.toJson());
                 return;
             }
             sender.sendMessage(result.toJson());
         }catch(Exception ex) {
             Logger.warn(ex, "We had caught an error whilst performing a /json command");
-            sender.sendMessage(getError());
+            sender.sendMessage(Errors.UNEXPECTED_ERROR.toJson());
         }
-    }
-    
-    private String getError() {
-        return getError("Unexpected error occured whilst trying to handle your request.");
-    }
-    
-    private String getError(String message) {
-        JSONObject json = new JSONObject();
-        json.put("error", true);
-        json.put("text", message);
-        return json.toJSONString();
     }
 
 }

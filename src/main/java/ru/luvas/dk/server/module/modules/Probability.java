@@ -3,7 +3,7 @@ package ru.luvas.dk.server.module.modules;
 import com.google.common.collect.Lists;
 import ru.luvas.dk.server.custom.RequestResult;
 import ru.luvas.dk.server.module.Module;
-import ru.luvas.dk.server.util.UtilAlgo;
+import ru.luvas.dk.server.util.Rand;
 
 /**
  *
@@ -17,7 +17,7 @@ public class Probability extends Module {
 
     @Override
     public RequestResult handle(String msg) {
-        int r = UtilAlgo.r(101);
+        int r = Rand.nextInt(101);
         return new RequestResult("Мой вердикт: " + r + " " + getPercentageName(r), "Мой вердикт: " + r + "%", null);
     }
     

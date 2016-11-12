@@ -11,7 +11,7 @@ import ru.luvas.dk.server.DarlingKate;
 import ru.luvas.dk.server.configuration.ConfigurationSection;
 import ru.luvas.dk.server.configuration.FileConfiguration;
 import ru.luvas.dk.server.util.Logger;
-import ru.luvas.dk.server.util.UtilAlgo;
+import ru.luvas.dk.server.util.Rand;
 import weka.classifiers.functions.SMO;
 import weka.core.Attribute;
 import weka.core.FastVector;
@@ -190,7 +190,7 @@ public class Classifier {
             instance = filter.output();
             String cluster = data.classAttribute().value((int) cls.classifyInstance(instance));
             List<String> list = clusters.get(cluster);
-            return list.get(UtilAlgo.r((long) message.hashCode(), list.size()));
+            return Rand.of(list);
         } catch (Exception ex) {
             return null;
         }
