@@ -1,0 +1,4 @@
+/target/
+*.yml
+*.yaml
+*.log*
