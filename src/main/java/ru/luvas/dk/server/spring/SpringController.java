@@ -1,7 +1,6 @@
 package ru.luvas.dk.server.spring;
 
 import javax.servlet.http.HttpServletRequest;
-import org.json.simple.JSONObject;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,43 +23,35 @@ public class SpringController {
     public String getAnswer(@RequestParam(name="message", required=false) String message,
             @RequestParam(name="location", required=false) String slocation, HttpServletRequest request) {
         try {
-            if(Protector.checkIfSpamBanned(request.getHeader("HTTP_CF_CONNECTING_IP")))
-                return error("You made too many requests within given amount of time. Try again later.");
+            String ip = request.getHeader("HTTP_CF_CONNECTING_IP");
+            if(ip == null)
+                ip = request.getRemoteAddr();
+            if(Protector.checkIfSpamBanned(ip))
+                return Errors.TOO_MANY_REQUESTS.toJson();
             if(message == null)
-                return error("There's no message in your request.");
+                return Errors.NO_MESSAGE.toJson();
             if(message.length() > 64)
-                return error("This message is too long.");
+                return Errors.TOO_LONG_MESSAGE.toJson();
             Location location = null;
             if(slocation != null) {
                 String[] spl = slocation.split(";");
                 try {
                     location = new Location(Float.parseFloat(spl[0]), Float.parseFloat(spl[1]));
                 }catch(Exception ex) {
-                    return error("Wrong location format.");
+                    return Errors.WRONG_LOCATION_FORMAT.toJson();
                 }
             }
             RequestEvent reqEvent = new RequestEvent(message, location);
             reqEvent.call();
             if(reqEvent.isCancelled())
-                return error("By some reason this request was denied.");
+                return Errors.REQUEST_WAS_DENIED.toJson();
             RequestResult result = reqEvent.getResult();
             if(result == null || result.getMessage() == null)
-                return error("By some reason we are unable to handle your request.");
+                return Errors.CAN_NOT_HANDLE_REQUEST.toJson();
             return result.toJson();
         }catch(Exception ex) {
-            return error();
+            return Errors.UNEXPECTED_ERROR.toJson();
         }
-    }
-    
-    private String error() {
-        return error("Unexpected error occured whilst trying to handle your request.");
-    }
-    
-    private String error(String message) {
-        JSONObject json = new JSONObject();
-        json.put("error", true);
-        json.put("text", message);
-        return json.toJSONString();
     }
     
 }
