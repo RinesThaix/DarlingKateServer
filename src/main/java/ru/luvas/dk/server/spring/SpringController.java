@@ -24,7 +24,7 @@ public class SpringController {
     public String getAnswer(@RequestParam(name="message", required=false) String message,
             @RequestParam(name="location", required=false) String slocation, HttpServletRequest request) {
         try {
-            if(Protector.checkIfSpamBanned(request.getRemoteAddr()))
+            if(Protector.checkIfSpamBanned(request.getHeader("HTTP_CF_CONNECTING_IP")))
                 return error("You made too many requests within given amount of time. Try again later.");
             if(message == null)
                 return error("There's no message in your request.");
