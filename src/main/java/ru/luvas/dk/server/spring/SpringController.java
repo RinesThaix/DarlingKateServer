@@ -46,7 +46,7 @@ public class SpringController {
             if(reqEvent.isCancelled())
                 return Errors.REQUEST_WAS_DENIED.toJson();
             RequestResult result = reqEvent.getResult();
-            if(result == null || result.getMessage() == null)
+            if(result == null)
                 return Errors.CAN_NOT_HANDLE_REQUEST.toJson();
             return result.toJson();
         }catch(Exception ex) {

@@ -12,6 +12,7 @@ import ru.luvas.dk.server.event.events.ChatEvent;
 import ru.luvas.dk.server.event.events.RequestEvent;
 import ru.luvas.dk.server.module.ModuleManager;
 import ru.luvas.dk.server.user.Console;
+import ru.luvas.dk.server.util.Pair;
 import ru.luvas.dk.server.util.UtilAlgo;
 
 /**
@@ -68,16 +69,16 @@ public class SystemListener {
         if(e.isCancelled())
             return;
         String msg = e.getMessage();
-        RequestResult result = ModuleManager.handle(msg);
-        if(result != null) {
-            e.setResult(result);
+        Pair<Boolean, RequestResult> resultingPair = ModuleManager.handle(msg);
+        if(resultingPair.getFirst()) {
+            e.setResult(resultingPair.getSecond());
             return;
         }
         String answer = DarlingKate.getClassifier().classify(msg);
         if(answer == null)
             answer = unknown.get(UtilAlgo.r((long) msg.hashCode(), unknown.size()));
-        else if((result = ModuleManager.handle(answer)) != null) {
-            e.setResult(result);
+        else if((resultingPair = ModuleManager.handle(answer)).getFirst()) {
+            e.setResult(resultingPair.getSecond());
             return;
         }
         e.setResult(new RequestResult(answer));

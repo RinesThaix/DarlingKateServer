@@ -6,6 +6,7 @@ import lombok.Getter;
 import ru.luvas.dk.server.custom.RequestResult;
 import ru.luvas.dk.server.module.modules.*;
 import ru.luvas.dk.server.util.Logger;
+import ru.luvas.dk.server.util.Pair;
 
 /**
  *
@@ -28,14 +29,22 @@ public class ModuleManager {
         modules.add(module);
     }
     
-    public static RequestResult handle(String msg) {
+    private final static Pair<Boolean, RequestResult> nope = new Pair<>(false, null);
+    
+    /**
+     * Tries to find module for the given message & to execute it.
+     * @param msg the message.
+     * @return Pair(false, null) whether there's no such a module or Pair(true, RequestResult), whether
+     * we succeed with our task.
+     */
+    public static Pair<Boolean, RequestResult> handle(String msg) {
         String lowered = msg.toLowerCase();
         for(Module module : modules) {
             for(String prefix : module.getPrefixes())
                 if(lowered.startsWith(prefix))
-                    return module.handle0(msg.substring(prefix.length()));
+                    return new Pair<>(true, module.handle0(msg.substring(prefix.length())));
         }
-        return null;
+        return nope;
     }
     
     public static boolean contains(String prefix) {

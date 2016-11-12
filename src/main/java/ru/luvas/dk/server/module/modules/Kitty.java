@@ -30,7 +30,7 @@ public class Kitty extends Module {
             return new RequestResult("Котенок отправлен!", "Вот, держи:", xml);
         }catch(Exception ex) {
             ex.printStackTrace();
-            return new RequestResult(null);
+            return null;
         }
     }
 
