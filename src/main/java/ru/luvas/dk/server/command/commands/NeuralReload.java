@@ -17,6 +17,7 @@ public class NeuralReload extends Command {
     public void handle(String[] args) {
         sender.sendMessage("Перезагружаем нейронную сеть, обновляя последние полученные данные..");
         DarlingKate.getInstance().reloadClassifier();
+        DarlingKate.getClassifier().classify("привет"); //to preload SMO
         sender.sendMessage("Нейронная сеть успешно перезагружена.");
     }
 

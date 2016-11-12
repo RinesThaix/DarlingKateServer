@@ -44,7 +44,7 @@ public class SpringController {
             if(reqEvent.isCancelled())
                 return error("By some reason this request was denied.");
             RequestResult result = reqEvent.getResult();
-            if(result == null)
+            if(result == null || result.getMessage() == null)
                 return error("By some reason we are unable to handle your request.");
             return result.toJson();
         }catch(Exception ex) {

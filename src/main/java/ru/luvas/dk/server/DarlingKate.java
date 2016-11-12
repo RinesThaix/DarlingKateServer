@@ -76,7 +76,8 @@ public class DarlingKate {
         registerHandlers();
         Logger.section("weka classifier");
         classifier = new Classifier();
-        Logger.log("DarlingKateServer has been initialized, starting console thread..");
+        classifier.classify("привет"); //to preload SMO
+        Logger.log("DarlingKateServer has been initialized, starting console thread & launching spring boot..");
     }
     
     public void disable() {

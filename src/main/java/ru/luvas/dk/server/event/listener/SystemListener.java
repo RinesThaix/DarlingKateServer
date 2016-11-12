@@ -76,6 +76,10 @@ public class SystemListener {
         String answer = DarlingKate.getClassifier().classify(msg);
         if(answer == null)
             answer = unknown.get(UtilAlgo.r((long) msg.hashCode(), unknown.size()));
+        else if((result = ModuleManager.handle(answer)) != null) {
+            e.setResult(result);
+            return;
+        }
         e.setResult(new RequestResult(answer));
     }
     

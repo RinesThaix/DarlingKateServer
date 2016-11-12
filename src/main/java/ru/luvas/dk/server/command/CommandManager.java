@@ -27,6 +27,7 @@ public class CommandManager {
         load(new DeletePhrase());
         load(new NeuralReload());
         load(new ListClusters());
+        load(new Json());
         
         Logger.log("Registered %d commands in total.", commands.size());
     }

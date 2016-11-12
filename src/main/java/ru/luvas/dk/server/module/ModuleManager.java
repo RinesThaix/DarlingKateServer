@@ -19,6 +19,7 @@ public class ModuleManager {
     public static void init() {
         load(new Probability());
         load(new Version());
+        load(new Kitty());
         
         Logger.log("Registered %d modules in total.", modules.size());
     }

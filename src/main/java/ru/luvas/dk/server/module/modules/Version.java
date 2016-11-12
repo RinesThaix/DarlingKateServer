@@ -12,7 +12,7 @@ import ru.luvas.dk.server.module.Module;
 public class Version extends Module {
 
     public Version() {
-        super(Lists.newArrayList("версия", "твоя версия", "покажи версию", "выведи версию"));
+        super(Lists.newArrayList("версия", "твоя версия", "выведи версию"));
     }
 
     @Override
