@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import ru.luvas.dk.server.DarlingKate;
 import ru.luvas.dk.server.configuration.ConfigurationSection;
 import ru.luvas.dk.server.configuration.FileConfiguration;
 import ru.luvas.dk.server.util.Logger;
+import ru.luvas.dk.server.util.UtilAlgo;
 import weka.classifiers.functions.SMO;
 import weka.core.Attribute;
 import weka.core.FastVector;
@@ -30,7 +30,6 @@ public class Classifier {
     private StringToWordVector filter = new StringToWordVector();
     private weka.classifiers.Classifier cls = new SMO();
     
-    private final Random r = new Random();
     private final Map<String, List<String>> clusters = new HashMap<>();
     private final Map<String, String> learned = new HashMap<>();
     
@@ -191,7 +190,7 @@ public class Classifier {
             instance = filter.output();
             String cluster = data.classAttribute().value((int) cls.classifyInstance(instance));
             List<String> list = clusters.get(cluster);
-            return list.get(r.nextInt(list.size()));
+            return list.get(UtilAlgo.r((long) message.hashCode(), list.size()));
         } catch (Exception ex) {
             return null;
         }
