@@ -68,7 +68,7 @@ public class Classifier {
             cs2.getKeys(false).forEach(key -> study(key, cs2.getString(key)));
     }
     
-    public void invalidate() {
+    public synchronized void invalidate() {
         data = null;
         filter = null;
         cls = null;
@@ -78,7 +78,7 @@ public class Classifier {
         newLearned.clear();
     }
     
-    public void save() {
+    public synchronized void save() {
         FileConfiguration config = getConfig();
         newLearned.keySet().forEach(word -> config.set("words." + word, newLearned.get(word)));
         newClusters.keySet().forEach(cluster -> {
@@ -88,7 +88,7 @@ public class Classifier {
         saveConfig();
     }
     
-    public void removeCluster(String cluster) {
+    public synchronized void removeCluster(String cluster) {
         cluster = cluster.toLowerCase();
         clusters.remove(cluster);
         newClusters.remove(cluster);
@@ -97,7 +97,7 @@ public class Classifier {
         saveConfig();
     }
     
-    public void removePhrase(String phrase) {
+    public synchronized void removePhrase(String phrase) {
         phrase = parse(phrase);
         learned.remove(phrase);
         newLearned.remove(phrase);
@@ -106,7 +106,7 @@ public class Classifier {
         saveConfig();
     }
     
-    public void learnMirror(String phrase, String anotherPhrase) {
+    public synchronized void learnMirror(String phrase, String anotherPhrase) {
         phrase = parse(phrase);
         anotherPhrase = parse(anotherPhrase);
         if(learned.containsKey(phrase) || newLearned.containsKey(phrase))
@@ -117,7 +117,7 @@ public class Classifier {
         learn(phrase, cluster);
     }
     
-    public void learn(String phrase, String cluster) {
+    public synchronized void learn(String phrase, String cluster) {
         cluster = cluster.toLowerCase();
         phrase = parse(phrase);
         if(learned.containsKey(phrase) || newLearned.containsKey(phrase))
@@ -125,7 +125,7 @@ public class Classifier {
         newLearned.put(phrase, cluster);
     }
     
-    public void updateCluster(String name, String newPhrase) {
+    public synchronized void updateCluster(String name, String newPhrase) {
         name = name.toLowerCase();
         List<String> cluster = getFullCluster(name);
         if(cluster.contains(newPhrase))
@@ -138,7 +138,7 @@ public class Classifier {
         list.add(newPhrase);
     }
     
-    public String getClusterName(String phrase) {
+    public synchronized String getClusterName(String phrase) {
         phrase = parse(phrase);
         String cluster = learned.get(phrase);
         if(cluster == null)
@@ -146,14 +146,14 @@ public class Classifier {
         return cluster;
     }
     
-    public Collection<String> getAllClustersNames() {
+    public synchronized Collection<String> getAllClustersNames() {
         Set<String> result = new HashSet<>();
         result.addAll(clusters.keySet());
         result.addAll(newClusters.keySet());
         return result;
     }
     
-    public List<String> getFullCluster(String name) {
+    public synchronized List<String> getFullCluster(String name) {
         name = name.toLowerCase();
         List<String> list = new ArrayList<>(), list2 = clusters.get(name);
         if(list2 != null)
@@ -176,7 +176,7 @@ public class Classifier {
         }
     }
 
-    public String classify(String message) {
+    public synchronized String classify(String message) {
         message = parse(message);
         try {
             if(!isUpToDate) {
