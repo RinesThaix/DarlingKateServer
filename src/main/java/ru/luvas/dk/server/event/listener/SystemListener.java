@@ -25,6 +25,8 @@ public class SystemListener {
         if(e.isCancelled())
             return;
         String msg = e.getMessage();
+        if(msg == null)
+            return;
         if(msg.length() > 1) {
             if(msg.startsWith("/")) {
                 String cmd = msg.substring(1);
@@ -73,7 +75,7 @@ public class SystemListener {
         }
         String answer = DarlingKate.getClassifier().classify(msg);
         if(answer == null)
-            answer = unknown.get(UtilAlgo.r(unknown.size()));
+            answer = unknown.get(UtilAlgo.r((long) msg.hashCode(), unknown.size()));
         e.setResult(new RequestResult(answer));
     }
     

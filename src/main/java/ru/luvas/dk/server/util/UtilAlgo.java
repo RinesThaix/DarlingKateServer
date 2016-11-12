@@ -17,5 +17,13 @@ public class UtilAlgo {
     public static int r(int bound) {
         return R.nextInt(bound);
     }
+    
+    public static int r(long seed) {
+        return new Random(seed).nextInt();
+    }
+    
+    public static int r(long seed, int bound) {
+        return new Random(seed).nextInt(bound);
+    }
 
 }

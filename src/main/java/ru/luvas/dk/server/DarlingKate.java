@@ -52,21 +52,22 @@ public class DarlingKate {
             saveConfig("main");
         }
         wekaCapacity = config.getInt("weka_capacity");
-        config = getConfig("database");
-        if(!config.isSet("host")) {
-            config.set("host", "localhost");
-            config.set("port", 3306);
-            config.set("username", "root");
-            config.set("password", "root");
-            config.set("dbname", "darlingkate");
-            saveConfig("database");
-        }
-        connector = new ConnectorBuilder("SQL",
-                config.getString("host") + ":" + config.getInt("port"),
-                config.getString("username"),
-                config.getString("password"),
-                config.getString("dbname")
-        ).build(true);
+        //Don't think we need the following at the moment
+//        config = getConfig("database");
+//        if(!config.isSet("host")) {
+//            config.set("host", "localhost");
+//            config.set("port", 3306);
+//            config.set("username", "root");
+//            config.set("password", "root");
+//            config.set("dbname", "darlingkate");
+//            saveConfig("database");
+//        }
+//        connector = new ConnectorBuilder("SQL",
+//                config.getString("host") + ":" + config.getInt("port"),
+//                config.getString("username"),
+//                config.getString("password"),
+//                config.getString("dbname")
+//        ).build(true);
         Logger.section("commands");
         CommandManager.init();
         Logger.section("modules");

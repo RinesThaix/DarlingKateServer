@@ -1,10 +1,13 @@
 package ru.luvas.dk.server.neural;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import ru.luvas.dk.server.DarlingKate;
 import ru.luvas.dk.server.configuration.ConfigurationSection;
 import ru.luvas.dk.server.configuration.FileConfiguration;
@@ -141,6 +144,13 @@ public class Classifier {
         if(cluster == null)
             cluster = newLearned.get(phrase);
         return cluster;
+    }
+    
+    public Collection<String> getAllClustersNames() {
+        Set<String> result = new HashSet<>();
+        result.addAll(clusters.keySet());
+        result.addAll(newClusters.keySet());
+        return result;
     }
     
     public List<String> getFullCluster(String name) {
