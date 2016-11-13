@@ -86,6 +86,14 @@ public class Rand {
         return R.nextInt(bound);
     }
     
+    public static int nextInt(long seed) {
+        return new Random(seed).nextInt();
+    }
+    
+    public static int nextInt(long seed, int bound) {
+        return new Random(seed).nextInt(bound);
+    }
+    
     public static Random getRandom() {
         return R;
     }

@@ -20,7 +20,7 @@ public class Authenticator {
         while(sb.length() > MAX_POWER)
             sb.deleteCharAt(0);
         while(sb.length() < MAX_POWER)
-            sb.append(Rand.nextInt(10));
+            sb.append(Rand.nextInt(hash, 10));
         secretHash = Integer.parseInt(sb.toString());
     }
 

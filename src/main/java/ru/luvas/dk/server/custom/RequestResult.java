@@ -1,5 +1,7 @@
 package ru.luvas.dk.server.custom;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import lombok.Data;
 import org.json.simple.JSONObject;
 import ru.luvas.dk.server.spring.Errors;
@@ -37,12 +39,13 @@ public class RequestResult {
             return this.error.toJson();
         if(this.speech == null || this.message == null)
             return Errors.CAN_NOT_HANDLE_REQUEST.toJson();
-        JSONObject json = new JSONObject();
+        //Making our json look beauty (as we did with errors json before)
+        Map<String, Object> json = new LinkedHashMap<>();
         json.put("speech", this.speech);
         json.put("message", this.message);
         if(this.photoUrl != null)
             json.put("photo", this.photoUrl);
-        return json.toJSONString();
+        return JSONObject.toJSONString(json);
     }
     
 }
