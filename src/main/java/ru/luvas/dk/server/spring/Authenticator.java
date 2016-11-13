@@ -1,6 +1,7 @@
 package ru.luvas.dk.server.spring;
 
 import java.math.BigInteger;
+import ru.luvas.dk.server.util.Logger;
 import ru.luvas.dk.server.util.Rand;
 
 /**
@@ -11,6 +12,7 @@ public class Authenticator {
     
     private final static long TOKEN_EXPIRATION_TIME_IN_MILLISECONDS = 30000l;
     private final static int MAX_POWER = 5;
+    private final static int MAX_POSSIBLE_TOKEN_LENGTH = 100;
     
     private static Integer secretHash = null;
     
@@ -24,9 +26,13 @@ public class Authenticator {
         secretHash = Integer.parseInt(sb.toString());
     }
 
+    //Checks 179 tokens per millisecond in average (1_000_000 tokens required 5585 milliseconds to be validated)
+    @SuppressWarnings("empty-statement")
     public static Errors.Error validateToken(String token) {
         if(secretHash == null)
             return null;
+        if(token.length() > MAX_POSSIBLE_TOKEN_LENGTH)
+            return Errors.INVALID_TOKEN;
         try {
             long current = System.currentTimeMillis();
             BigInteger bi = new BigInteger(token, 25);
