@@ -39,9 +39,9 @@ public class Authenticator {
                 int value = Integer.parseInt(sb.toString());
                 value ^= secretHash;
                 String svalue = String.valueOf(value);
-                while(svalue.length() > 1 && svalue.charAt('0') == 0)
-                    svalue = svalue.substring(1);
-                global.append(svalue);
+                int j = 0;
+                for(; j < svalue.length() - 1 && svalue.charAt(j) == '0'; ++j);
+                global.append(svalue.substring(j));
             }
             long result = Long.parseLong(global.toString());
             return current - result > -TOKEN_EXPIRATION_TIME_IN_MILLISECONDS &&
