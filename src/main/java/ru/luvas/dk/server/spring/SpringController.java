@@ -21,13 +21,19 @@ public class SpringController {
     @RequestMapping("/")
     @ResponseBody
     public String getAnswer(@RequestParam(name="message", required=false) String message,
-            @RequestParam(name="location", required=false) String slocation, HttpServletRequest request) {
+            @RequestParam(name="location", required=false) String slocation, 
+            @RequestParam(name="token", required=false) String token, HttpServletRequest request) {
         try {
             String ip = request.getHeader("HTTP_CF_CONNECTING_IP");
             if(ip == null)
                 ip = request.getRemoteAddr();
             if(Protector.checkIfSpamBanned(ip))
                 return Errors.TOO_MANY_REQUESTS.toJson();
+            if(token == null)
+                return Errors.NO_TOKEN.toJson();
+            Errors.Error error = Authenticator.validateToken(token);
+            if(error != null)
+                return error.toJson();
             if(message == null)
                 return Errors.NO_MESSAGE.toJson();
             if(message.length() > 64)

@@ -17,6 +17,7 @@ import ru.luvas.dk.server.logger.LoggingOutputStream;
 import ru.luvas.dk.server.logger.OwnLogger;
 import ru.luvas.dk.server.module.ModuleManager;
 import ru.luvas.dk.server.neural.Classifier;
+import ru.luvas.dk.server.spring.Authenticator;
 import ru.luvas.dk.server.util.Logger;
 import ru.luvas.dk.server.util.Scheduler;
 import ru.luvas.dk.server.util.sql.Connector;
@@ -47,11 +48,15 @@ public class DarlingKate {
         preloadLogger();
         Logger.section("configuration");
         FileConfiguration config = getConfig("main");
-        if(!config.isSet("weka_capacity")) {
+        if(!config.isSet("secret_phrase")) {
             config.set("weka_capacity", 100_000);
+            config.set("secret_phrase", "0");
             saveConfig("main");
         }
         wekaCapacity = config.getInt("weka_capacity");
+        String secretPhrase = config.getString("secret_phrase");
+        if(!secretPhrase.equals("0"))
+            Authenticator.setupSecretHash(secretPhrase);
         //Don't think we need the following at the moment
 //        config = getConfig("database");
 //        if(!config.isSet("host")) {

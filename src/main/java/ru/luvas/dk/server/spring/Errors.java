@@ -22,7 +22,10 @@ public class Errors {
             WRONG_LOCATION_FORMAT = new Error(4, "Wrong location format."),
             REQUEST_WAS_DENIED = new Error(5, "By some reason your request was denied."),
             CAN_NOT_HANDLE_REQUEST = new Error(6, "By some reason we are unable to handle your request."),
-            MODULE_TEMPORARILY_DISABLED = new Error(7, "This command is temporarily disabled.");
+            MODULE_TEMPORARILY_DISABLED = new Error(7, "This command is temporarily disabled."),
+            NO_TOKEN = new Error(8, "There's no token in your request."),
+            INVALID_TOKEN = new Error(9, "Your token is invalid."),
+            EXPIRED_TOKEN = new Error(10, "Your token has expired.");
     
     public static Error get(int id) {
         return ERRORS.get(id);
