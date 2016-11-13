@@ -2,6 +2,7 @@ package ru.luvas.dk.server.spring;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,7 @@ import ru.luvas.dk.server.event.events.RequestEvent;
 @EnableAutoConfiguration
 public class SpringController {
     
-    @RequestMapping("/")
+    @RequestMapping(value="/", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     @ResponseBody
     public String getAnswer(@RequestParam(name="message", required=false) String message,
             @RequestParam(name="location", required=false) String slocation, 
