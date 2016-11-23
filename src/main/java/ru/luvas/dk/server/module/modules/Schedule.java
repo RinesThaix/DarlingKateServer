@@ -44,9 +44,17 @@ public class Schedule extends Module {
             return new RequestResult("Я не поняла, информацию по какой группе ты хочешь получить.");
         for(int i = msg.length() - 1; i >= msg.length() - 4; --i)
             sb.append(msg.charAt(i));
-        String group = spl[spl.length - 2].charAt(0) + sb.reverse().toString();
+        String group = sb.reverse().toString();
+        for(int i = spl.length - 2; i >= 0; --i) {
+            char c = spl[i].charAt(0);
+            if(c < '0' || c > '9') {
+                group = c + group;
+                break;
+            }
+        }
         for(Entry<Character, Character> entry : phoneticReplaces.entrySet())
             group = group.replace(entry.getKey(), entry.getValue());
+        group = group.toUpperCase();
         char[] chars = group.toCharArray();
         boolean valid = true;
         if(chars[0] < 'A' || chars[0] > 'Z')
