@@ -21,6 +21,7 @@ public class ModuleManager {
         load(new Probability());
         load(new Version());
         load(new Kitty());
+        load(new Schedule());
         
         Logger.log("Registered %d modules in total.", modules.size());
     }
