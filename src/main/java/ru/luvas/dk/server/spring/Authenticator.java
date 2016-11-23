@@ -1,7 +1,6 @@
 package ru.luvas.dk.server.spring;
 
 import java.math.BigInteger;
-import ru.luvas.dk.server.util.Logger;
 import ru.luvas.dk.server.util.Rand;
 
 /**

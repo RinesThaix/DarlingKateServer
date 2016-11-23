@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit;
 public class Protector {
     
     private final static long USE_LASTS_FOR_IN_SECONDS = 60;
-    private final static long MAX_USES = 10;
-    private final static long BAN_TIME_IN_MINUTES = 5;
+    private final static long MAX_USES = 20;
+    private final static long BAN_TIME_IN_MINUTES = 3;
     
     /**
      * Key: IP; Value: Priority queue of uses times.
@@ -49,7 +49,7 @@ public class Protector {
         long current = System.currentTimeMillis();
         Long bannedUntil = bannedCache.getIfPresent(ip);
         if(bannedUntil != null) {
-            if(current > bannedUntil)
+            if(current < bannedUntil)
                 return true;
             bannedCache.invalidate(ip);
         }
