@@ -4,6 +4,7 @@ import ru.luvas.dk.server.command.Command;
 import ru.luvas.dk.server.custom.RequestResult;
 import ru.luvas.dk.server.event.events.RequestEvent;
 import ru.luvas.dk.server.spring.Errors;
+import ru.luvas.dk.server.user.Session;
 import ru.luvas.dk.server.util.Logger;
 
 /**
@@ -31,7 +32,7 @@ public class Json extends Command {
             return;
         }
         try {
-            RequestEvent reqEvent = new RequestEvent(msg);
+            RequestEvent reqEvent = new RequestEvent(Session.getConsoleSession(), msg);
             reqEvent.call();
             if(reqEvent.isCancelled()) {
                 sender.sendMessage(Errors.REQUEST_WAS_DENIED.toJson());

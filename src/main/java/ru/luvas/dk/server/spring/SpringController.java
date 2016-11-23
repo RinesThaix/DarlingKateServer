@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ru.luvas.dk.server.custom.Location;
 import ru.luvas.dk.server.custom.RequestResult;
 import ru.luvas.dk.server.event.events.RequestEvent;
+import ru.luvas.dk.server.user.Session;
 
 /**
  *
@@ -48,7 +49,7 @@ public class SpringController {
                     return Errors.WRONG_LOCATION_FORMAT.toJson();
                 }
             }
-            RequestEvent reqEvent = new RequestEvent(message, location);
+            RequestEvent reqEvent = new RequestEvent(Session.getSession(ip), message, location);
             reqEvent.call();
             if(reqEvent.isCancelled())
                 return Errors.REQUEST_WAS_DENIED.toJson();

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import ru.luvas.dk.server.DarlingKate;
 import ru.luvas.dk.server.custom.RequestResult;
 import ru.luvas.dk.server.module.Module;
+import ru.luvas.dk.server.user.Session;
 
 /**
  *
@@ -16,7 +17,7 @@ public class Version extends Module {
     }
 
     @Override
-    public RequestResult handle(String msg) {
+    public RequestResult handle(Session session, String msg) {
         String commitId = DarlingKate.getInstance().getCommitId();
         if(commitId.equals("unknown"))
             return new RequestResult("В данный момент я работаю под неизвестной версией своего кода.");

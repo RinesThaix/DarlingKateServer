@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.zip.GZIPInputStream;
 
 /**
  *
@@ -15,16 +16,32 @@ import java.net.URLEncoder;
  */
 public class PostExecutor {
 
-    @SuppressWarnings("deprecation")
-    @Deprecated
     public static String executeGet(String urlGet) {
         try {
             URL url = new URL(urlGet);
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"))) {
                 StringBuilder sb = new StringBuilder();
                 String line;
                 while((line = reader.readLine()) != null)
                     sb.append(line);
+                Logger.log(sb.toString());
+                return sb.toString();
+            }
+        } catch (Exception ex) {
+            Logger.warn(ex, "Could not execute get-query!");
+            return null;
+        }
+    }
+
+    public static String executeGetGZIP(String urlGet) {
+        try {
+            URL url = new URL(urlGet);
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new GZIPInputStream(url.openStream()), "UTF-8"))) {
+                StringBuilder sb = new StringBuilder();
+                String line;
+                while((line = reader.readLine()) != null)
+                    sb.append(line);
+                Logger.log(sb.toString());
                 return sb.toString();
             }
         } catch (Exception ex) {

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import ru.luvas.dk.server.custom.Location;
 import ru.luvas.dk.server.custom.RequestResult;
 import ru.luvas.dk.server.event.CancellableEvent;
+import ru.luvas.dk.server.user.Session;
 
 /**
  *
@@ -15,14 +16,16 @@ import ru.luvas.dk.server.event.CancellableEvent;
 @RequiredArgsConstructor
 public class RequestEvent extends CancellableEvent {
     
+    private final Session session;
+    
     private final String message;
     
     private final Location location;
     
     private RequestResult result;
     
-    public RequestEvent(String message) {
-        this(message, null);
+    public RequestEvent(Session session, String message) {
+        this(session, message, null);
     }
 
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.luvas.dk.server.custom.RequestResult;
 import ru.luvas.dk.server.spring.Errors;
+import ru.luvas.dk.server.user.Session;
 
 /**
  *
@@ -28,13 +29,13 @@ public abstract class Module {
         this.prefixes.sort((a, b) -> b.length() - a.length());
     }
     
-    RequestResult handle0(String msg) {
+    RequestResult handle0(Session session, String msg) {
         if(disabled)
             return new RequestResult(Errors.MODULE_TEMPORARILY_DISABLED);
-        return handle(msg);
+        return handle(session, msg);
     }
     
-    public abstract RequestResult handle(String msg);
+    public abstract RequestResult handle(Session session, String msg);
     
     protected RequestResult notEnoughArgs() {
         return new RequestResult("Неверное число аргументов!", "Неверное число аргументов для команды!", null);

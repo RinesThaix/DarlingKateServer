@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import jline.console.ConsoleReader;
 import lombok.Getter;
 import org.fusesource.jansi.AnsiConsole;
+import org.json.simple.parser.JSONParser;
 import ru.luvas.dk.server.command.CommandManager;
 import ru.luvas.dk.server.configuration.ConfigurationManager;
 import ru.luvas.dk.server.configuration.FileConfiguration;
@@ -21,7 +22,6 @@ import ru.luvas.dk.server.spring.Authenticator;
 import ru.luvas.dk.server.util.Logger;
 import ru.luvas.dk.server.util.Scheduler;
 import ru.luvas.dk.server.util.sql.Connector;
-import ru.luvas.dk.server.util.sql.ConnectorBuilder;
 
 /**
  *
@@ -40,6 +40,9 @@ public class DarlingKate {
     
     @Getter
     private static Classifier classifier;
+    
+    @Getter
+    private final static JSONParser parser = new JSONParser();
     
     public DarlingKate() {
         if(instance != null)
@@ -81,6 +84,7 @@ public class DarlingKate {
         registerHandlers();
         Logger.section("weka classifier");
         classifier = new Classifier();
+        Logger.log("Preloading SMO..");
         classifier.classify("привет"); //to preload SMO
         Logger.log("DarlingKateServer has been initialized, starting console thread & launching spring boot..");
     }

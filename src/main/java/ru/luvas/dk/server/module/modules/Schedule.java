@@ -13,6 +13,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.luvas.dk.server.custom.RequestResult;
 import ru.luvas.dk.server.module.Module;
+import ru.luvas.dk.server.user.Session;
 
 /**
  *
@@ -34,7 +35,7 @@ public class Schedule extends Module {
     }
 
     @Override
-    public RequestResult handle(String msg) {
+    public RequestResult handle(Session session, String msg) {
         msg = msg.toLowerCase();
         String[] spl = msg.split(" ");
         StringBuilder sb = new StringBuilder();

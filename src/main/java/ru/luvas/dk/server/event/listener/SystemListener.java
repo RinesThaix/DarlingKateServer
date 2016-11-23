@@ -12,6 +12,7 @@ import ru.luvas.dk.server.event.events.ChatEvent;
 import ru.luvas.dk.server.event.events.RequestEvent;
 import ru.luvas.dk.server.module.ModuleManager;
 import ru.luvas.dk.server.user.Console;
+import ru.luvas.dk.server.user.Session;
 import ru.luvas.dk.server.util.Pair;
 import ru.luvas.dk.server.util.Rand;
 
@@ -40,7 +41,7 @@ public class SystemListener {
                 return;
             }
         }
-        RequestEvent reqEvent = new RequestEvent(msg);
+        RequestEvent reqEvent = new RequestEvent(Session.getConsoleSession(), msg);
         reqEvent.call();
         RequestResult result = reqEvent.getResult();
         String speech = result.getSpeech(), message = result.getMessage();
@@ -69,7 +70,7 @@ public class SystemListener {
         if(e.isCancelled())
             return;
         String msg = e.getMessage();
-        Pair<Boolean, RequestResult> resultingPair = ModuleManager.handle(msg);
+        Pair<Boolean, RequestResult> resultingPair = ModuleManager.handle(e.getSession(), msg);
         if(resultingPair.getFirst()) {
             e.setResult(resultingPair.getSecond());
             return;
@@ -77,7 +78,7 @@ public class SystemListener {
         String answer = DarlingKate.getClassifier().classify(msg);
         if(answer == null)
             answer = Rand.of(unknown);
-        else if((resultingPair = ModuleManager.handle(answer)).getFirst()) {
+        else if((resultingPair = ModuleManager.handle(e.getSession(), answer)).getFirst()) {
             e.setResult(resultingPair.getSecond());
             return;
         }
