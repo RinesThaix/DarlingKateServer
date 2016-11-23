@@ -24,7 +24,6 @@ public class PostExecutor {
                 String line;
                 while((line = reader.readLine()) != null)
                     sb.append(line);
-                Logger.log(sb.toString());
                 return sb.toString();
             }
         } catch (Exception ex) {
@@ -41,7 +40,6 @@ public class PostExecutor {
                 String line;
                 while((line = reader.readLine()) != null)
                     sb.append(line);
-                Logger.log(sb.toString());
                 return sb.toString();
             }
         } catch (Exception ex) {
