@@ -13,7 +13,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.luvas.dk.server.custom.RequestResult;
 import ru.luvas.dk.server.module.Module;
-import ru.luvas.dk.server.util.RDate;
 
 /**
  *
@@ -36,13 +35,15 @@ public class Schedule extends Module {
 
     @Override
     public RequestResult handle(String msg) {
+        msg = msg.toLowerCase();
+        String[] spl = msg.split(" ");
         StringBuilder sb = new StringBuilder();
-        msg = msg.replace(" ", "").toLowerCase();
+        msg = msg.replace(" ", "");
         if(msg.length() < 5)
             return new RequestResult("Я не поняла, информацию по какой группе ты хочешь получить.");
-        for(int i = msg.length() - 1; i >= msg.length() - 5; --i)
+        for(int i = msg.length() - 1; i >= msg.length() - 4; --i)
             sb.append(msg.charAt(i));
-        String group = sb.reverse().toString();
+        String group = spl[spl.length - 2].charAt(0) + sb.reverse().toString();
         for(Entry<Character, Character> entry : phoneticReplaces.entrySet())
             group = group.replace(entry.getKey(), entry.getValue());
         char[] chars = group.toCharArray();
@@ -57,7 +58,7 @@ public class Schedule extends Module {
         if(!valid)
             return new RequestResult("Названная тобой группа невалидна. Не уверена, что я правильно услышала тебя, "
                     + "так что отправила ее название в текстовом сообщении.",
-                    "Ты спросил про группу " + group + "?", null);
+                    "Ты спросил про группу " + group + "?\nПопробуй сказать 'расписание для группы Москва 3236 (М3236)' или 'расписание Астрахань 3201 (A3201)'", null);
         @SuppressWarnings("deprecation")
         int currentDay = new Date().getDay();
         if(currentDay == 0)
