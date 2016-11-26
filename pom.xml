@@ -15,12 +15,12 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.4.2.RELEASE</version>
     </parent>
-    <repositories>
-        <repository>
+    <pluginRepositories>
+        <pluginRepository>
             <id>rines-repo</id>
             <url>https://repo.kostya.sexy/</url>
-        </repository>
-    </repositories>
+        </pluginRepository>
+    </pluginRepositories>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
