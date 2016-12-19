@@ -12,6 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.luvas.dk.server.custom.RequestResult;
+import ru.luvas.dk.server.custom.RequestResultSpeak;
 import ru.luvas.dk.server.module.Module;
 import ru.luvas.dk.server.user.Session;
 
@@ -41,7 +42,7 @@ public class Schedule extends Module {
         StringBuilder sb = new StringBuilder();
         msg = msg.replace(" ", "");
         if(msg.length() < 5)
-            return new RequestResult("Я не поняла, информацию по какой группе ты хочешь получить.");
+            return new RequestResultSpeak("Я не поняла, информацию по какой группе ты хочешь получить.");
         for(int i = msg.length() - 1; i >= msg.length() - 4; --i)
             sb.append(msg.charAt(i));
         String group = sb.reverse().toString();
@@ -65,13 +66,13 @@ public class Schedule extends Module {
                 break;
             }
         if(!valid)
-            return new RequestResult("Названная тобой группа невалидна. Не уверена, что я правильно услышала тебя, "
+            return new RequestResultSpeak("Названная тобой группа невалидна. Не уверена, что я правильно услышала тебя, "
                     + "так что отправила ее название в текстовом сообщении.",
                     "Ты спросил про группу " + group + "?\nПопробуй сказать 'расписание для группы Москва 3236 (М3236)' или 'расписание Астрахань 3201 (A3201)'", null);
         @SuppressWarnings("deprecation")
         int currentDay = new Date().getDay();
         if(currentDay == 0)
-            return new RequestResult("В воскресенье нет пар, дурачок!");
+            return new RequestResultSpeak("В воскресенье нет пар, дурачок!");
         String url = "http://www.ifmo.ru/ru/schedule/0/" + group + "/raspisanie_zanyatiy_" + group + ".htm";
         List<String> first = new ArrayList<>(),
                 second = new ArrayList<>(),
@@ -101,13 +102,13 @@ public class Schedule extends Module {
                     third.add(pair.select("dd").first().text() + ".");
             }
             if(first.isEmpty())
-                return new RequestResult("Расписание для этой группы не найдено. Не уверена, что расслышала группу правильно, так что отправляю ее в текстовом сообщении.",
+                return new RequestResultSpeak("Расписание для этой группы не найдено. Не уверена, что расслышала группу правильно, так что отправляю ее в текстовом сообщении.",
                         "Ты спросил про группу " + group + "?", null);
             sb = new StringBuilder();
             sb.append("Расписание для группы ").append(group).append(":\n");
             for(int i = 0; i < first.size(); ++i)
                 sb.append(first.get(i)).append(second.get(i)).append(third.get(i)).append("\n");
-            return new RequestResult("Я выслала сегодняшнее расписание для этой группы в текстовом сообщении.", sb.toString(), null);
+            return new RequestResultSpeak("Я выслала сегодняшнее расписание для этой группы в текстовом сообщении.", sb.toString(), null);
         }catch(Exception ex) {
             ex.printStackTrace();
             return null;

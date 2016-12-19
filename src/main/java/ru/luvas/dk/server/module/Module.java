@@ -4,6 +4,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import ru.luvas.dk.server.custom.RequestResult;
+import ru.luvas.dk.server.custom.RequestResultNotify;
 import ru.luvas.dk.server.spring.Errors;
 import ru.luvas.dk.server.user.Session;
 
@@ -38,7 +39,7 @@ public abstract class Module {
     public abstract RequestResult handle(Session session, String msg);
     
     protected RequestResult notEnoughArgs() {
-        return new RequestResult("Неверное число аргументов!", "Неверное число аргументов для команды!", null);
+        return new RequestResultNotify("Неверное число аргументов!", "Неверное число аргументов для команды!");
     }
     
 }

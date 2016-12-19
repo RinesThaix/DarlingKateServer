@@ -5,6 +5,7 @@ import java.util.List;
 import ru.luvas.dk.server.DarlingKate;
 import ru.luvas.dk.server.command.CommandManager;
 import ru.luvas.dk.server.custom.RequestResult;
+import ru.luvas.dk.server.custom.RequestResultSpeak;
 import ru.luvas.dk.server.event.Listener;
 import ru.luvas.dk.server.event.ListenerPriority;
 import ru.luvas.dk.server.event.events.ChatCommandEvent;
@@ -44,11 +45,7 @@ public class SystemListener {
         RequestEvent reqEvent = new RequestEvent(Session.getConsoleSession(), msg);
         reqEvent.call();
         RequestResult result = reqEvent.getResult();
-        String speech = result.getSpeech(), message = result.getMessage();
-        if(speech.equals(message))
-            Console.getInstance().sendMessage(speech);
-        else
-            Console.getInstance().sendMessage(Lists.newArrayList(speech, message));
+        Console.getInstance().sendMessage(result.toJson());
     }
     
     @Listener(priority = ListenerPriority.SYSTEM)
@@ -82,7 +79,7 @@ public class SystemListener {
             e.setResult(resultingPair.getSecond());
             return;
         }
-        e.setResult(new RequestResult(answer));
+        e.setResult(new RequestResultSpeak(answer));
     }
     
 }

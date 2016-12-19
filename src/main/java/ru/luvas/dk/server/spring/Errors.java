@@ -1,7 +1,6 @@
 package ru.luvas.dk.server.spring;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import lombok.Getter;
 import org.json.simple.JSONObject;
@@ -39,22 +38,21 @@ public class Errors {
         @Getter
         private final String message;
         
-        private final String json;
+        @Getter
+        private final JSONObject json;
         
         private Error(int id, String message) {
             this.id = id;
             this.message = message;
-            //Using LinkedHashMap just to make json string ordered (it looks nicier)
-            Map<String, Object> map = new LinkedHashMap<>();
-            map.put("error", true);
-            map.put("id", id);
-            map.put("text", message);
-            this.json = JSONObject.toJSONString(map);
             ERRORS.put(id, this);
+            this.json = new JSONObject();
+            this.json.put("result_type", "ERROR");
+            this.json.put("error_id", this.id);
+            this.json.put("error_text", this.message);
         }
         
         public String toJson() {
-            return json;
+            return json.toJSONString();
         }
         
     }

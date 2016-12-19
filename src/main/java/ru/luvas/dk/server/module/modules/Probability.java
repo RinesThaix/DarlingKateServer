@@ -2,6 +2,7 @@ package ru.luvas.dk.server.module.modules;
 
 import com.google.common.collect.Lists;
 import ru.luvas.dk.server.custom.RequestResult;
+import ru.luvas.dk.server.custom.RequestResultSpeak;
 import ru.luvas.dk.server.module.Module;
 import ru.luvas.dk.server.user.Session;
 import ru.luvas.dk.server.util.Rand;
@@ -19,7 +20,7 @@ public class Probability extends Module {
     @Override
     public RequestResult handle(Session session, String msg) {
         int r = Rand.nextInt(101);
-        return new RequestResult("Мой вердикт: " + r + " " + getPercentageName(r), "Мой вердикт: " + r + "%", null);
+        return new RequestResultSpeak("Мой вердикт: " + r + " " + getPercentageName(r), "Мой вердикт: " + r + "%", null);
     }
     
     private String getPercentageName(int v) {

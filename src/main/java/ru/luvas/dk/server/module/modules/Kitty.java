@@ -2,6 +2,7 @@ package ru.luvas.dk.server.module.modules;
 
 import com.google.common.collect.Lists;
 import ru.luvas.dk.server.custom.RequestResult;
+import ru.luvas.dk.server.custom.RequestResultSpeak;
 import ru.luvas.dk.server.module.IterableModule;
 import ru.luvas.dk.server.module.Module;
 import ru.luvas.dk.server.user.Session;
@@ -26,7 +27,7 @@ public class Kitty extends Module implements IterableModule {
             String xml = PostExecutor.executeGet(URL);
             xml = xml.split("<url>")[1].split("</url>")[0];
             session.set(More.KEY_ITERABLE_MODULE, this);
-            return new RequestResult("Котенок отправлен!", "Вот, держи:", xml);
+            return new RequestResultSpeak("Котенок отправлен!", "Вот, держи:", xml);
         }catch(Exception ex) {
             ex.printStackTrace();
             return null;
